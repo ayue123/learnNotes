@@ -1,0 +1,34 @@
+安装jdk
+配置环境变量
+linux安装wrapper：wget http://wrapper.tanukisoftware.com/download/3.5.14/wrapper-linux-x86-64-3.5.14.tar.gz
+解压：tar zxvf wrapper-linux-x86-64-3.5.14.tar.gz
+
+复制wrapper/src/bin/sh.script.in到../logtest/bin目录，重命名为logtest
+复制wrapper/bin目录下的wrapper文件到../logtest/bin目录 
+复制wrapper/src/conf/wrapper.conf.in到../logtest/conf目录，重命名为wrapper.conf 
+复制wrapper/lib目录下3个文件到../logtest/lib目录 
+libwrapper.so重命名为wrapper.so
+wrapper.jar 
+wrappertest.jar
+
+修改../logtest/bin/logtest文件
+APP_NAME="logtest"
+APP_LONG_NAME="logtest Application Server"
+WRAPPER_CMD="./wrapper"
+WRAPPER_CONF="../conf/wrapper.conf"
+
+赋予执行权利
+chmod 775 ../logtest/bin/wrapper 
+
+修改../logtest/conf/wrapper.conf文件
+wrapper.java.command=/usr/lib/jvm/jre-1.8.0-openjdk-1.8.0.102-4.b14.el7.x86_64/bin/java
+wrapper.java.classpath.1=../lib/wrapper.jar
+wrapper.java.classpath.2=../lib/log_test.jar
+wrapper.java.classpath.3=其他所需的jar包或者启动配置文件
+wrapper.java.library.path.1=../lib
+wrapper.app.parameter.1=com.ayue.App
+
+让logtest开机启动
+ln -s ../logtest/bin/logtest  /etc/init.d/logtest 
+
+测试 执行命令：service logtest start|stop|restart|status 
